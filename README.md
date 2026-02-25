@@ -160,12 +160,14 @@ dive-director/
 │   CLAUDE CODE       │              │  BACKEND — FastAPI       │
 │   (Orchestrateur)   │              │                          │
 │                     │              │  routers/                │
-│  CLAUDE.md          │              │  ├── chat.py  → Claude   │
-│  = routage +        │              │  └── wrecks.py → SHOM   │
-│  workflow DPE-PN5   │              │  services/               │
-│                     │              │  ├── claude.py (SDK)     │
-└──────────┬──────────┘              │  └── shom.py  (WFS)     │
-           │                         └──────────────────────────┘
+│  CLAUDE.md          │              │  routers/                │
+│  = routage +        │              │  ├── chat.py  → Claude   │
+│  workflow DPE-PN5   │              │  └── wrecks.py           │
+│                     │              │  services/               │
+└──────────┬──────────┘              │  ├── claude.py (SDK)     │
+           │                         │  └── mcp_client.py ──┐   │
+           │                         └──────────────────────┼───┘
+           │                                                │
            ▼
 ┌──────────────────────────────────────────────────────────────┐
 │                    8 AGENTS SPÉCIALISÉS                       │
@@ -244,7 +246,7 @@ dive-director/
 | Claude Code ↔ maree.info | WebFetch (HTTP GET + parsing HTML) |
 | Web App ↔ Backend | REST API (FastAPI — `/chat`, `/wrecks`) |
 | Backend ↔ Claude | Anthropic Python SDK (`anthropic`) |
-| Backend ↔ SHOM | HTTP direct vers API WFS SHOM |
+| Backend ↔ MCP SHOM | Model Context Protocol (stdio, JSON-RPC 2.0) |
 
 ### Repos liés
 
