@@ -1,0 +1,9 @@
+# Personal / local
+.claude/settings.local.json
+.claude/agent-memory/
+.DS_Store
+
+# OS
+.Spotlight-V100
+.Trashes
+Thumbs.db
