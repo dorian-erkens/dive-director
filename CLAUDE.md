@@ -26,7 +26,7 @@ Réponds en **français** par défaut. Bascule en anglais uniquement si le DP s'
 | **safety-sheet** | Fiche de sécurité et organisation des palanquées | Liste de plongeurs, groupes, vérification aptitudes, fiche sécu |
 | **boat-specs** | Caractéristiques du CIPI'ONE | Temps de transit, capacité, carburant, procédures |
 | **nautical-position-calculator** | Calculs de positions GPS et routes | Cap, distance, estime, temps de transit |
-| **port-access** | Accessibilité des ports selon la marée | Règle des 6 NM, abris ouverts/fermés, permis requis |
+| **port-access** | Accessibilité des ports du Calvados selon la marée | Ports ouverts/fermés à une heure donnée, pour toute activité maritime (plongée, nav, urgence) |
 
 ## Commande unifiée : /plan-dive
 
@@ -46,6 +46,7 @@ Pour planifier une sortie complète, le DP peut utiliser la commande `/plan-dive
 | "Combien de temps pour le M39 ?" | boat-specs |
 | "Cap et distance vers le Northgate ?" | nautical-position-calculator |
 | "Quels ports sont ouverts à 14h ?" | port-access |
+| "On peut rentrer à Courseulles à 18h ?" | port-access |
 
 ### Requêtes complexes → plusieurs agents en séquence
 

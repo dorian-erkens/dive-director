@@ -41,7 +41,7 @@ Si une étape est bloquante (météo feu rouge, profondeur hors prérogatives, p
 | `wreck-finder` | Base d'épaves de la Baie de Seine | [SHOM MCP](https://github.com/dorian-erkens/mcp-shom-wrecks) (4 796+ épaves) + données club COP |
 | `tide-calculator` | Marées, coefficients, fenêtres d'étale | [maree.info](https://maree.info/25) |
 | `dive-conditions` | Évaluation météo-marine go/no-go | Matrice Douglas + vent sectoriel |
-| `port-access` | Accessibilité des ports selon la marée | Fenêtres d'accès des 7 ports du Calvados |
+| `port-access` | Accessibilité des ports du Calvados selon la marée | 7 ports Dives→Carentan, fenêtres d'accès, seuils |
 | `ffessm-diving-expert` | Réglementation FFESSM / Code du Sport | Niveaux, prérogatives, profondeurs |
 | `safety-sheet` | Fiche de sécurité + palanquées | Article A.322-72 |
 | `boat-specs` | Caractéristiques du bateau | CIPI'ONE (8,80m, 260cv, 19 pers.) |
@@ -263,7 +263,7 @@ Ce système est conçu pour le COP mais facilement adaptable :
 3. **`tide-calculator.md`** — Changer le port de référence (code maree.info)
 4. **`dive-conditions.md`** — Ajuster les seuils de vent selon votre exposition côtière
 5. **`nautical-position-calculator.md`** — Modifier le point de départ
-6. **`port-access.md`** — Adapter les fenêtres d'accès aux ports de votre zone (seuils, horaires de sas)
+6. **`port-access.md`** — Remplacer les ports du Calvados par ceux de votre zone (seuils, fenêtres de marée, type d'accès)
 
 Les agents `ffessm-diving-expert` et `safety-sheet` sont génériques (réglementation française) et fonctionnent pour tout club FFESSM.
 
@@ -295,7 +295,7 @@ Construit avec [Claude Code](https://claude.com/claude-code) (Anthropic) pour le
 - **Wreck identification** from the SHOM database (4,796+ wrecks) via [mcp-shom-wrecks](https://github.com/dorian-erkens/mcp-shom-wrecks)
 - **Tide calculation** for real depth at dive time
 - **Weather assessment** with go/no-go matrix
-- **Port accessibility** based on tides (dynamic 6 NM shelter rule)
+- **Port accessibility** based on tides (which harbours are open at a given time)
 - **Regulation check** (FFESSM certification levels vs. depth)
 - **Team organization** (buddy groups, safety sheet)
 - **Boat logistics** (transit time, fuel, capacity)
