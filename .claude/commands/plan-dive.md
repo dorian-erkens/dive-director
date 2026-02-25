@@ -67,7 +67,20 @@ Confirmer le type d'Explo fourni par le DP. C'est le cadre de la sortie.
 - Par contre, si feu orange : elle influence le confort et donc le choix du site (préférer un site proche)
 - **Si FEU ROUGE → STOP. Sortie annulée. Expliquer pourquoi.**
 
-### Étape 2.2 — Choix du site (agent: wreck-finder)
+### Étape 2.2 — Règle des 6 NM d'un abri (agent: nautical-position-calculator)
+> "Je vérifie la distance du site au plus proche abri..."
+
+Pour chaque site envisagé, calculer la distance au **plus proche abri** (pas au port de départ). Les abris de la côte du Calvados :
+- Ouistreham (49°17'N, 000°15'W)
+- Lion-sur-Mer — cale (49°19.5'N, 000°19'W) — vérifier si reconnu comme abri
+- Courseulles-sur-Mer (49°20'N, 000°27.5'W)
+- Port-en-Bessin (49°21'N, 000°45.5'W)
+- Grandcamp-Maisy (49°23'N, 001°03'W)
+
+**Si le site est à plus de 6 NM de tout abri reconnu → le pilote doit avoir le permis hauturier.**
+Toujours signaler la distance à l'abri le plus proche et le permis requis.
+
+### Étape 2.3 — Choix du site (agent: wreck-finder)
 > "En Explo [1/2], avec un coefficient de [X], marée [PM/BM] à [heure], et [conditions météo], voici les sites adaptés..."
 
 Critères de sélection :

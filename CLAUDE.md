@@ -69,7 +69,11 @@ Le type d'Explo définit le **plafond**, pas le plancher. Ne jamais exclure un s
 **Phase 2 — FAISABILITÉ** (go / no-go)
 4. **Météo** (dive-conditions) : évaluation go / annulation
 → **STOP si feu rouge** — sortie annulée. La météo ne downgrade PAS le type d'Explo, elle annule ou elle passe. Par contre, elle influence le confort et donc le choix du site.
-5. **Choix du site** (wreck-finder) : sélectionner l'épave compatible avec tout le cadrage :
+5. **Règle des 6 NM** (nautical-position-calculator) : vérifier la distance du site au **plus proche abri** (pas au port de départ)
+   - Abris côte du Calvados : Ouistreham, Lion-sur-Mer (cale), Courseulles-sur-Mer, Port-en-Bessin, Grandcamp
+   - Si site > 6 NM de tout abri → **permis hauturier obligatoire** pour le pilote
+   - Toujours signaler la distance à l'abri le plus proche
+6. **Choix du site** (wreck-finder) : sélectionner l'épave compatible avec tout le cadrage :
    - Profondeur réelle ≤ plafond Explo (selon marée)
    - Distance raisonnable vu les conditions météo
    - Niveaux des plongeurs inscrits
