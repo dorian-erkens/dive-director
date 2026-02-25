@@ -67,18 +67,20 @@ Confirmer le type d'Explo fourni par le DP. C'est le cadre de la sortie.
 - Par contre, si feu orange : elle influence le confort et donc le choix du site (préférer un site proche)
 - **Si FEU ROUGE → STOP. Sortie annulée. Expliquer pourquoi.**
 
-### Étape 2.2 — Règle des 6 NM d'un abri (agent: nautical-position-calculator)
-> "Je vérifie la distance du site au plus proche abri..."
+### Étape 2.2 — Abris accessibles (agents: port-access + nautical-position-calculator)
+> "Je vérifie quels ports sont réellement accessibles à l'heure de la plongée..."
 
-Pour chaque site envisagé, calculer la distance au **plus proche abri** (pas au port de départ). Les abris de la côte du Calvados :
-- Ouistreham (49°17'N, 000°15'W)
-- Lion-sur-Mer — cale (49°19.5'N, 000°19'W) — vérifier si reconnu comme abri
-- Courseulles-sur-Mer (49°20'N, 000°27.5'W)
-- Port-en-Bessin (49°21'N, 000°45.5'W)
-- Grandcamp-Maisy (49°23'N, 001°03'W)
+**Un port fermé n'est pas un abri.** Le check des 6 NM doit être dynamique.
 
-**Si le site est à plus de 6 NM de tout abri reconnu → le pilote doit avoir le permis hauturier.**
-Toujours signaler la distance à l'abri le plus proche et le permis requis.
+1. **Appeler `port-access`** avec la date, l'heure prévue de mise à l'eau, le coefficient de marée et l'heure de PM (données obtenues en étape 1.2) pour obtenir la liste des ports avec leur statut : OUVERT / LIMITE / FERMÉ / INCERTAIN
+2. **Appeler `nautical-position-calculator`** pour calculer la distance de chaque site candidat à chaque port OUVERT
+3. **Déterminer l'abri ouvert le plus proche** de chaque site candidat
+4. **Verdict** :
+   - Site à ≤ 6 NM d'un abri OUVERT → **permis côtier suffisant**
+   - Site à > 6 NM de tout abri OUVERT → **permis hauturier obligatoire** pour le pilote
+   - Si seul Lion-sur-Mer est à portée → **signaler le statut ambigu** et laisser le DP décider
+
+Toujours signaler la distance à l'abri ouvert le plus proche et le permis requis.
 
 ### Étape 2.3 — Choix du site (agent: wreck-finder)
 > "En Explo [1/2], avec un coefficient de [X], marée [PM/BM] à [heure], et [conditions météo], voici les sites adaptés..."

@@ -15,7 +15,7 @@ Le DP doit comprendre chaque décision. Ne fais jamais de choix silencieux.
 
 Réponds en **français** par défaut. Bascule en anglais uniquement si le DP s'adresse à toi en anglais.
 
-## Les 7 agents spécialisés
+## Les 8 agents spécialisés
 
 | Agent | Rôle | Quand l'utiliser |
 |---|---|---|
@@ -26,6 +26,7 @@ Réponds en **français** par défaut. Bascule en anglais uniquement si le DP s'
 | **safety-sheet** | Fiche de sécurité et organisation des palanquées | Liste de plongeurs, groupes, vérification aptitudes, fiche sécu |
 | **boat-specs** | Caractéristiques du CIPI'ONE | Temps de transit, capacité, carburant, procédures |
 | **nautical-position-calculator** | Calculs de positions GPS et routes | Cap, distance, estime, temps de transit |
+| **port-access** | Accessibilité des ports selon la marée | Règle des 6 NM, abris ouverts/fermés, permis requis |
 
 ## Commande unifiée : /plan-dive
 
@@ -44,6 +45,7 @@ Pour planifier une sortie complète, le DP peut utiliser la commande `/plan-dive
 | "Organise ces palanquées" | safety-sheet |
 | "Combien de temps pour le M39 ?" | boat-specs |
 | "Cap et distance vers le Northgate ?" | nautical-position-calculator |
+| "Quels ports sont ouverts à 14h ?" | port-access |
 
 ### Requêtes complexes → plusieurs agents en séquence
 
@@ -69,10 +71,11 @@ Le type d'Explo définit le **plafond**, pas le plancher. Ne jamais exclure un s
 **Phase 2 — FAISABILITÉ** (go / no-go)
 4. **Météo** (dive-conditions) : évaluation go / annulation
 → **STOP si feu rouge** — sortie annulée. La météo ne downgrade PAS le type d'Explo, elle annule ou elle passe. Par contre, elle influence le confort et donc le choix du site.
-5. **Règle des 6 NM** (nautical-position-calculator) : vérifier la distance du site au **plus proche abri** (pas au port de départ)
-   - Abris côte du Calvados : Ouistreham, Lion-sur-Mer (cale), Courseulles-sur-Mer, Port-en-Bessin, Grandcamp
-   - Si site > 6 NM de tout abri → **permis hauturier obligatoire** pour le pilote
-   - Toujours signaler la distance à l'abri le plus proche
+5. **Abris accessibles** (port-access + nautical-position-calculator) : vérifier quels ports sont OUVERTS à l'heure de la plongée
+   - Croiser avec la distance du site (nautical-position-calculator)
+   - Si site > 6 NM de tout abri OUVERT → **permis hauturier obligatoire** pour le pilote
+   - Un port FERMÉ n'est PAS un abri
+   - Toujours signaler la distance à l'abri ouvert le plus proche
 6. **Choix du site** (wreck-finder) : sélectionner l'épave compatible avec tout le cadrage :
    - Profondeur réelle ≤ plafond Explo (selon marée)
    - Distance raisonnable vu les conditions météo
