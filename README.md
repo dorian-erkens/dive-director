@@ -25,10 +25,12 @@ L'assistant orchestre **7 agents spécialisés** qui suivent le workflow officie
 
 | Phase | Objectif | Agents |
 |:---:|---|---|
-| 1 | **Choisir un site** — identification de l'épave, profondeur réelle selon la marée, conditions météo | wreck-finder, tide-calculator, dive-conditions |
-| 2 | **Réglementation** — vérification des aptitudes par rapport à la profondeur | ffessm-diving-expert |
-| 3 | **Organiser** — composition des palanquées, fiche de sécurité, calcul du transit | safety-sheet, boat-specs, nautical-position-calculator |
+| 1 | **Cadrage** — type d'Explo (1/2/3), marées et profondeurs réelles, plongeurs inscrits | tide-calculator |
+| 2 | **Faisabilité** — météo go/no-go, puis choix du site adapté au cadrage | dive-conditions, wreck-finder |
+| 3 | **Organiser** — aptitudes, palanquées, fiche de sécurité, transit | ffessm-diving-expert, safety-sheet, boat-specs, nautical-position-calculator |
 | 4 | **Sécuriser** — briefing complet avec toutes les infos pour le DP | (synthèse) |
+
+Le type d'Explo est décidé **3 mois à l'avance** (Explo 1 ≤ 20m, Explo 2 ≤ 40m, Explo 3 ≤ 60m). La météo peut **annuler** la sortie mais ne downgrade jamais le type d'Explo — en revanche elle influence le choix du site.
 
 Si une étape est bloquante (météo feu rouge, profondeur hors prérogatives, pas assez de GP...), l'assistant **stoppe immédiatement** et explique pourquoi.
 

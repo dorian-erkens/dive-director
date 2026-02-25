@@ -51,26 +51,38 @@ Quand le DP demande de **planifier une plongée complète** (ou utilise `/plan-d
 
 #### Workflow DPE-PN5 "Plan de plongée"
 
-Le cursus DPE-PN5 (FFESSM) structure le travail du DP en 4 phases. Nos agents couvrent chacune :
+Le cursus DPE-PN5 (FFESSM) structure le travail du DP en 4 phases. Le type d'Explo est décidé **3 mois à l'avance** par le club (on alterne Explo 1 et Explo 2, rarement Explo 3). Les plongeurs s'inscrivent **15 jours avant**.
 
-**Phase 1 — CHOISIR UN SITE** (wreck-finder + tide-calculator + dive-conditions)
-1. Identifier l'épave (wreck-finder) : position, profondeur carte, distance, niveau requis
-2. Calculer la profondeur réelle (tide-calculator) : marées, coefficient, hauteur d'eau au moment de la plongée
-3. Évaluer les conditions (dive-conditions) : feu vert / orange / rouge
-→ **STOP si feu rouge** — sortie annulée, inutile de continuer
+**Les 3 types d'exploration :**
+- **Explo 1** : profondeur max 20 m (sites N1)
+- **Explo 2** : profondeur max 40 m (sites N2 — mais peut aller sur un site à 15m, "qui peut le plus peut le moins")
+- **Explo 3** : profondeur max 60 m (sites N3/technique — rare)
 
-**Phase 2 — RÉGLEMENTATION** (ffessm-diving-expert)
-4. Vérifier que la profondeur réelle est compatible avec les niveaux des plongeurs
-5. Le DP peut restreindre les aptitudes mais JAMAIS les augmenter
-6. Aptitudes → Fonctions : PE12/PE20/PE40/PA20/PA40/GP selon Code du Sport + conditions + expérience
-→ **STOP si profondeur dépasse les prérogatives** — changer de site ou d'étale
+**Phase 1 — CADRAGE** (données connues à l'avance)
+1. **Type d'Explo** (input du DP) : Explo 1, 2 ou 3 → plafond de profondeur
+2. **Marée du jour** (tide-calculator) : horaires PM/BM, coefficient, marnage, profondeurs réelles des épaves, fenêtre d'étale
+3. **Plongeurs inscrits** (input du DP) : niveaux, aptitudes, nombre
+→ On sait maintenant quelle profondeur est accessible et pour qui
+
+**Phase 2 — FAISABILITÉ** (go / no-go)
+4. **Météo** (dive-conditions) : évaluation go / annulation
+→ **STOP si feu rouge** — sortie annulée. La météo ne downgrade PAS le type d'Explo, elle annule ou elle passe. Par contre, elle influence le confort et donc le choix du site.
+5. **Choix du site** (wreck-finder) : sélectionner l'épave compatible avec tout le cadrage :
+   - Profondeur réelle ≤ plafond Explo (selon marée)
+   - Distance raisonnable vu les conditions météo
+   - Niveaux des plongeurs inscrits
+   - Intérêt du site
+→ Proposer 2-3 options avec justification. Le DP choisit.
 
 **Phase 3 — ORGANISER** (safety-sheet + boat-specs + nautical-position-calculator)
-7. Composer les palanquées : trier GP, puis PE, puis PA, puis suppléant/pilote
-8. Fixer les paramètres : profondeur max, durée max (tables MN90 obligatoires)
-9. Préparer la fiche de sécurité (Article A.322-72)
-10. Calculer le transit (boat-specs) : temps de route, cap GPS, carburant
-→ **STOP si effectif > 19 ou pas assez de GP**
+6. **Réglementation** (ffessm-diving-expert) : vérifier aptitudes vs profondeur réelle du site choisi
+   - Le DP peut restreindre les aptitudes mais JAMAIS les augmenter
+   - Fonctions : PE12/PE20/PE40/PA20/PA40/GP selon Code du Sport + conditions + expérience
+7. **Palanquées** (safety-sheet) : trier GP → PE → PA → suppléant/pilote
+8. **Paramètres** : profondeur max, durée max (tables MN90 comme référence obligatoire)
+9. **Fiche de sécurité** (safety-sheet) : Article A.322-72
+10. **Transit** (boat-specs + nautical-position-calculator) : cap, distance, temps de route, carburant
+→ **STOP si effectif > 19 ou pas assez de GP pour les PE**
 
 **Phase 4 — SÉCURISER** (briefing final)
 11. Briefing navigation : cap, ETA, VHF canal 74
