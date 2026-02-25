@@ -1,6 +1,15 @@
 # Dive Director — Assistant DP pour Claude Code
 
+> **[English below](#english)**
+
+[![Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-blueviolet)](https://claude.com/claude-code)
+[![FFESSM](https://img.shields.io/badge/Norme-FFESSM%20%2F%20Code%20du%20Sport-blue)](https://ffessm.fr)
+[![SHOM MCP](https://img.shields.io/badge/SHOM%20MCP-4796%2B%20%C3%A9paves-teal)](https://github.com/dorian-erkens/mcp-shom-wrecks)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Assistant intelligent pour **Directeur de Plongée (DP)** basé sur [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Conçu pour le club [Caen Ouistreham Plongée (COP)](https://caen-ouistreham-plongee.org/), adaptable à tout club de plongée français.
+
+---
 
 ## Ce que ça fait
 
@@ -9,23 +18,27 @@ Planification complète d'une sortie plongée en une commande :
 ```
 /plan-dive
 > On plonge samedi sur le Svenner, 3 N2, 2 N3 et 1 GP.
-> Vent SW 12 nœuds, Douglas 2.
+> Vent SW 12 noeuds, Douglas 2.
 ```
 
 L'assistant orchestre **7 agents spécialisés** qui suivent le workflow officiel **DPE-PN5** (Directeur de Plongée en Exploration, FFESSM) :
 
-1. **Choisir un site** → identification de l'épave, profondeur réelle selon la marée, conditions météo
-2. **Réglementation** → vérification des aptitudes par rapport à la profondeur
-3. **Organiser** → composition des palanquées, fiche de sécurité, calcul du transit
-4. **Sécuriser** → briefing complet avec toutes les infos pour le DP
+| Phase | Objectif | Agents |
+|:---:|---|---|
+| 1 | **Choisir un site** — identification de l'épave, profondeur réelle selon la marée, conditions météo | wreck-finder, tide-calculator, dive-conditions |
+| 2 | **Réglementation** — vérification des aptitudes par rapport à la profondeur | ffessm-diving-expert |
+| 3 | **Organiser** — composition des palanquées, fiche de sécurité, calcul du transit | safety-sheet, boat-specs, nautical-position-calculator |
+| 4 | **Sécuriser** — briefing complet avec toutes les infos pour le DP | (synthèse) |
+
+Si une étape est bloquante (météo feu rouge, profondeur hors prérogatives, pas assez de GP...), l'assistant **stoppe immédiatement** et explique pourquoi.
 
 ## Les 7 agents
 
 | Agent | Rôle | Données |
 |---|---|---|
-| `wreck-finder` | Base d'épaves (34 épaves cataloguées) | SHOM MCP + données club |
-| `tide-calculator` | Marées, coefficients, étale | [maree.info](https://maree.info/25) |
-| `dive-conditions` | Évaluation météo go/no-go | Matrice Douglas + vent sectoriel |
+| `wreck-finder` | Base d'épaves de la Baie de Seine | [SHOM MCP](https://github.com/dorian-erkens/mcp-shom-wrecks) (4 796+ épaves) + données club COP |
+| `tide-calculator` | Marées, coefficients, fenêtres d'étale | [maree.info](https://maree.info/25) |
+| `dive-conditions` | Évaluation météo-marine go/no-go | Matrice Douglas + vent sectoriel |
 | `ffessm-diving-expert` | Réglementation FFESSM / Code du Sport | Niveaux, prérogatives, profondeurs |
 | `safety-sheet` | Fiche de sécurité + palanquées | Article A.322-72 |
 | `boat-specs` | Caractéristiques du bateau | CIPI'ONE (8,80m, 260cv, 19 pers.) |
@@ -35,7 +48,7 @@ L'assistant orchestre **7 agents spécialisés** qui suivent le workflow officie
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installé
 - Un abonnement Anthropic (les agents utilisent le modèle `sonnet` par défaut)
-- Optionnel : [mcp-shom-wrecks](https://github.com/dorian-erkens/mcp-shom-wrecks) pour les données d'épaves SHOM en temps réel
+- Optionnel : [mcp-shom-wrecks](https://github.com/dorian-erkens/mcp-shom-wrecks) pour les données d'épaves SHOM (4 796+ épaves en temps réel)
 
 ## Installation
 
@@ -52,7 +65,7 @@ Claude Code détecte automatiquement le `CLAUDE.md` et les agents dans `.claude/
 
 ### Configuration du SHOM MCP (optionnel mais recommandé)
 
-Le SHOM MCP donne accès à **4 796+ épaves** de la base du Service Hydrographique et Océanographique de la Marine.
+Le [SHOM MCP](https://github.com/dorian-erkens/mcp-shom-wrecks) donne accès à **4 796+ épaves** de la base du Service Hydrographique et Océanographique de la Marine.
 
 ```bash
 # Installer le MCP
@@ -88,19 +101,21 @@ Fournir : site (ou laisser le choix), date, liste de plongeurs avec niveaux, con
 ### Requêtes simples
 
 ```
-"C'est quoi le Svenner ?"           → wreck-finder
-"Marées demain ?"                    → tide-calculator
-"Vent NW 18 nds, on sort ?"         → dive-conditions
-"Un N2 peut aller à 35m ?"          → ffessm-diving-expert
-"Organise ces palanquées"           → safety-sheet
-"Combien de temps pour le M39 ?"    → boat-specs
-"Cap vers le Northgate ?"           → nautical-position-calculator
+"C'est quoi le Svenner ?"           -> wreck-finder
+"Marées demain ?"                    -> tide-calculator
+"Vent NW 18 nds, on sort ?"         -> dive-conditions
+"Un N2 peut aller à 35m ?"          -> ffessm-diving-expert
+"Organise ces palanquées"           -> safety-sheet
+"Combien de temps pour le M39 ?"    -> boat-specs
+"Cap vers le Northgate ?"           -> nautical-position-calculator
 ```
 
 ## Structure du projet
 
 ```
+dive-director/
 ├── CLAUDE.md                              # Orchestrateur principal
+├── README.md
 ├── .claude/
 │   ├── agents/                            # 7 agents spécialisés
 │   │   ├── wreck-finder.md
@@ -110,8 +125,14 @@ Fournir : site (ou laisser le choix), date, liste de plongeurs avec niveaux, con
 │   │   ├── safety-sheet.md
 │   │   ├── boat-specs.md
 │   │   └── nautical-position-calculator.md
-│   └── commands/
-│       └── plan-dive.md                   # Commande /plan-dive
+│   ├── commands/
+│   │   └── plan-dive.md                   # Commande /plan-dive
+│   └── agent-memory/                      # Mémoire persistante par agent
+│       ├── wreck-finder/
+│       ├── tide-calculator/
+│       ├── dive-conditions/
+│       ├── boat-specs/
+│       └── nautical-position-calculator/
 ```
 
 ## Adaptation à votre club
@@ -142,3 +163,21 @@ MIT
 ## Contributeurs
 
 Construit avec [Claude Code](https://claude.com/claude-code) (Anthropic) pour le club [Caen Ouistreham Plongée](https://caen-ouistreham-plongee.org/).
+
+---
+
+<a id="english"></a>
+
+## English
+
+**Dive Director** is an AI-powered assistant for scuba **Dive Directors** (Directeur de Plongée), built on [Claude Code](https://docs.anthropic.com/en/docs/claude-code). It orchestrates 7 specialized agents to plan complete dive trips following the official French diving federation (FFESSM) DPE-PN5 workflow:
+
+- **Wreck identification** from the SHOM database (4,796+ wrecks) via [mcp-shom-wrecks](https://github.com/dorian-erkens/mcp-shom-wrecks)
+- **Tide calculation** for real depth at dive time
+- **Weather assessment** with go/no-go matrix
+- **Regulation check** (FFESSM certification levels vs. depth)
+- **Team organization** (buddy groups, safety sheet)
+- **Boat logistics** (transit time, fuel, capacity)
+- **Navigation** (GPS waypoints, course, distance)
+
+Designed for [Caen Ouistreham Plongée (COP)](https://caen-ouistreham-plongee.org/) diving from the port of Ouistreham (Normandy, France), but adaptable to any French dive club. See the [Adaptation section](#adaptation-à-votre-club) for details.
