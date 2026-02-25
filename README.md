@@ -5,9 +5,20 @@
 [![Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-blueviolet)](https://claude.com/claude-code)
 [![FFESSM](https://img.shields.io/badge/Norme-FFESSM%20%2F%20Code%20du%20Sport-blue)](https://ffessm.fr)
 [![SHOM MCP](https://img.shields.io/badge/SHOM%20MCP-4796%2B%20%C3%A9paves-teal)](https://github.com/dorian-erkens/mcp-shom-wrecks)
+[![PRD Workflow](https://img.shields.io/badge/Product-GIST%20%2F%20ICE%20PRDs-orange)](docs/prd/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Assistant intelligent pour **Directeur de Plongée (DP)** basé sur [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Conçu pour le club [Caen Ouistreham Plongée (COP)](https://caen-ouistreham-plongee.org/), adaptable à tout club de plongée français.
+Assistant intelligent pour **Directeur de Plongée (DP)** basé sur [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Orchestre **8 agents spécialisés** pour planifier une sortie plongée complète en suivant le workflow officiel **DPE-PN5** (FFESSM).
+
+Conçu pour [Caen Ouistreham Plongée (COP)](https://caen-ouistreham-plongee.org/), adaptable à tout club de plongée français.
+
+### Écosystème Dive Director
+
+| Repo | Rôle | Stack |
+|---|---|---|
+| **dive-director** (ce repo) | CLI — orchestrateur, 8 agents, `/plan-dive` | Claude Code, Markdown |
+| [dive-director-app](https://github.com/dorian-erkens/dive-director-app) | Web app — carte épaves, chat IA, inspector panel | FastAPI, React, Leaflet |
+| [mcp-shom-wrecks](https://github.com/dorian-erkens/mcp-shom-wrecks) | Serveur MCP — 4 796+ épaves SHOM | TypeScript, MCP SDK |
 
 ---
 
@@ -256,6 +267,18 @@ dive-director/
 | [**mcp-shom-wrecks**](https://github.com/dorian-erkens/mcp-shom-wrecks) | TypeScript + Node.js + MCP SDK | Serveur MCP — 4 796+ épaves SHOM |
 | **dive-director-app** *(WIP)* | React 19 / Vite / Tailwind / Leaflet + FastAPI | Interface web : chat, carte, inspecteur |
 
+## Product Workflow
+
+Ce projet utilise un workflow Product automatisé :
+
+```
+Issue "Insight"  →  GitHub Action  →  Claude génère un PRD  →  PR créée
+```
+
+Chaque idée d'amélioration passe par le framework **GIST** (Goals, Ideas, Steps, Tasks) avec **ICE Scoring** (Impact x Confidence x Ease) et le [Confidence Meter](https://itamargilad.com/the-tool-i-use-to-filter-product-ideas/) d'Itamar Gilad. Les PRDs sont générés automatiquement par Claude et arrivent en PR pour review.
+
+[Voir les PRDs](docs/prd/) | [Template PRD](.github/templates/prd-template.md)
+
 ## Adaptation à votre club
 
 Ce système est conçu pour le COP mais facilement adaptable :
@@ -292,15 +315,29 @@ Construit avec [Claude Code](https://claude.com/claude-code) (Anthropic) pour le
 
 ## English
 
-**Dive Director** is an AI-powered assistant for scuba **Dive Directors** (Directeur de Plongée), built on [Claude Code](https://docs.anthropic.com/en/docs/claude-code). It orchestrates 8 specialized agents to plan complete dive trips following the official French diving federation (FFESSM) DPE-PN5 workflow:
+**Dive Director** is an AI-powered assistant for scuba **Dive Directors** (Directeur de Plongée), built on [Claude Code](https://docs.anthropic.com/en/docs/claude-code). It orchestrates **8 specialized agents** to plan complete dive trips following the official French diving federation (FFESSM) DPE-PN5 workflow.
+
+### Ecosystem
+
+| Repo | Role | Stack |
+|---|---|---|
+| **dive-director** (this repo) | CLI — orchestrator, 8 agents, `/plan-dive` | Claude Code, Markdown |
+| [dive-director-app](https://github.com/dorian-erkens/dive-director-app) | Web app — wreck map, AI chat, inspector panel | FastAPI, React, Leaflet |
+| [mcp-shom-wrecks](https://github.com/dorian-erkens/mcp-shom-wrecks) | MCP server — 4,796+ SHOM wrecks | TypeScript, MCP SDK |
+
+### What it does
 
 - **Wreck identification** from the SHOM database (4,796+ wrecks) via [mcp-shom-wrecks](https://github.com/dorian-erkens/mcp-shom-wrecks)
 - **Tide calculation** for real depth at dive time
 - **Weather assessment** with go/no-go matrix
 - **Port accessibility** based on tides (which harbours are open at a given time)
 - **Regulation check** (FFESSM certification levels vs. depth)
-- **Team organization** (buddy groups, safety sheet)
+- **Team organization** (buddy groups, safety sheet per Article A.322-72)
 - **Boat logistics** (transit time, fuel, capacity)
 - **Navigation** (GPS waypoints, course, distance)
 
-Designed for [Caen Ouistreham Plongée (COP)](https://caen-ouistreham-plongee.org/) diving from the port of Ouistreham (Normandy, France), but adaptable to any French dive club. See the [Adaptation section](#adaptation-à-votre-club) and [Architecture diagram](#architecture) for details.
+### Product workflow
+
+Every feature idea goes through an automated PRD pipeline: GitHub Issue (insight) → Claude generates a GIST/ICE PRD with Confidence Meter → PR for review → merge to backlog.
+
+Designed for [Caen Ouistreham Plongée (COP)](https://caen-ouistreham-plongee.org/), adaptable to any French dive club.
