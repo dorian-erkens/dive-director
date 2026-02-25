@@ -137,6 +137,118 @@ dive-director/
 │       └── nautical-position-calculator/
 ```
 
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    UTILISATEUR (Directeur de Plongée)               │
+│                                                                     │
+│   CLI : Claude Code                Web UI (WIP)                     │
+│   ┌──────────────┐                 ┌──────────────────────────┐     │
+│   │  /plan-dive  │                 │  React + Tailwind +      │     │
+│   │  ou question │                 │  Leaflet (carte épaves)  │     │
+│   │  libre       │                 │  Chat / Inspector / Map  │     │
+│   └──────┬───────┘                 └────────────┬─────────────┘     │
+└──────────┼──────────────────────────────────────┼───────────────────┘
+           │                                      │
+           ▼                                      ▼
+┌─────────────────────┐              ┌──────────────────────────┐
+│   CLAUDE CODE       │              │  BACKEND — FastAPI       │
+│   (Orchestrateur)   │              │                          │
+│                     │              │  routers/                │
+│  CLAUDE.md          │              │  ├── chat.py  → Claude   │
+│  = routage +        │              │  └── wrecks.py → SHOM   │
+│  workflow DPE-PN5   │              │  services/               │
+│                     │              │  ├── claude.py (SDK)     │
+└──────────┬──────────┘              │  └── shom.py  (WFS)     │
+           │                         └──────────────────────────┘
+           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    7 AGENTS SPÉCIALISÉS                       │
+│                    (.claude/agents/*.md)                      │
+│                                                              │
+│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐ │
+│  │ wreck-finder   │  │ tide-calculator│  │dive-conditions │ │
+│  │ (épaves)       │  │ (marées)       │  │(météo go/nogo) │ │
+│  └───────┬────────┘  └───────┬────────┘  └────────────────┘ │
+│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐ │
+│  │ ffessm-expert  │  │ safety-sheet   │  │ boat-specs     │ │
+│  │(réglementation)│  │ (fiche sécu)   │  │ (CIPI'ONE)     │ │
+│  └────────────────┘  └────────────────┘  └────────────────┘ │
+│  ┌────────────────┐                                         │
+│  │ nautical-pos   │  agent-memory/ (mémoire persistante)    │
+│  │ (navigation)   │                                         │
+│  └───────┬────────┘                                         │
+└──────────┼───────────────────────────────────────────────────┘
+           │
+           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    SOURCES DE DONNÉES                         │
+│                                                              │
+│  ┌─────────────────────────┐  ┌────────────────────────────┐│
+│  │  MCP SHOM WRECKS        │  │  maree.info/25             ││
+│  │  (Node.js / TypeScript)  │  │  (WebFetch — Ouistreham)  ││
+│  │  4 outils MCP            │  └────────────────────────────┘│
+│  │       │                  │                                │
+│  │       ▼                  │  ┌────────────────────────────┐│
+│  │  API WFS SHOM (HTTPS)    │  │  Données embarquées       ││
+│  │  4 796+ épaves           │  │  (dans les agents .md)    ││
+│  └─────────────────────────┘  │  • Specs CIPI'ONE          ││
+│                               │  • Grilles FFESSM          ││
+│                               │  • Tables Douglas          ││
+│                               │  • Épaves COP favorites    ││
+│                               └────────────────────────────┘│
+└──────────────────────────────────────────────────────────────┘
+```
+
+### Workflow `/plan-dive`
+
+```
+          DP lance /plan-dive
+                 │
+      ┌──────────▼──────────┐
+      │  Phase 1 — CADRAGE  │  tide-calculator → maree.info
+      │  Type Explo + marée │  Profondeurs réelles, étale
+      │  + plongeurs        │
+      └──────────┬──────────┘
+                 │
+      ┌──────────▼──────────┐
+      │ Phase 2 — FAISAB.   │  dive-conditions → go / 🛑 STOP
+      │  Météo, règle 6 NM  │  nautical-pos → distance abri
+      │  Choix du site       │  wreck-finder → MCP SHOM
+      └──────────┬──────────┘
+                 │ DP choisit
+      ┌──────────▼──────────┐
+      │ Phase 3 — ORGANISER │  ffessm-expert → aptitudes
+      │  Palanquées, sécu   │  safety-sheet → fiche A.322-72
+      │  Transit             │  boat-specs + nautical-pos
+      └──────────┬──────────┘
+                 │
+      ┌──────────▼──────────┐
+      │ Phase 4 — BRIEFING  │  Synthèse complète
+      │  Nav + Sécu + Site  │  → Décision du DP
+      └─────────────────────┘
+```
+
+### Protocoles de communication
+
+| Lien | Protocole |
+|---|---|
+| Claude Code ↔ Agents | Subagent spawning natif (`.claude/agents/*.md`) |
+| Claude Code ↔ MCP SHOM | Model Context Protocol (stdio, JSON-RPC 2.0) |
+| Claude Code ↔ maree.info | WebFetch (HTTP GET + parsing HTML) |
+| Web App ↔ Backend | REST API (FastAPI — `/chat`, `/wrecks`) |
+| Backend ↔ Claude | Anthropic Python SDK (`anthropic`) |
+| Backend ↔ SHOM | HTTP direct vers API WFS SHOM |
+
+### Repos liés
+
+| Repo | Tech | Rôle |
+|---|---|---|
+| [**dive-director**](https://github.com/dorian-erkens/dive-director) | Markdown + Claude Code | Orchestrateur, 7 agents, `/plan-dive`, mémoire |
+| [**mcp-shom-wrecks**](https://github.com/dorian-erkens/mcp-shom-wrecks) | TypeScript + Node.js + MCP SDK | Serveur MCP — 4 796+ épaves SHOM |
+| **dive-director-app** *(WIP)* | React 19 / Vite / Tailwind / Leaflet + FastAPI | Interface web : chat, carte, inspecteur |
+
 ## Adaptation à votre club
 
 Ce système est conçu pour le COP mais facilement adaptable :
@@ -182,4 +294,4 @@ Construit avec [Claude Code](https://claude.com/claude-code) (Anthropic) pour le
 - **Boat logistics** (transit time, fuel, capacity)
 - **Navigation** (GPS waypoints, course, distance)
 
-Designed for [Caen Ouistreham Plongée (COP)](https://caen-ouistreham-plongee.org/) diving from the port of Ouistreham (Normandy, France), but adaptable to any French dive club. See the [Adaptation section](#adaptation-à-votre-club) for details.
+Designed for [Caen Ouistreham Plongée (COP)](https://caen-ouistreham-plongee.org/) diving from the port of Ouistreham (Normandy, France), but adaptable to any French dive club. See the [Adaptation section](#adaptation-à-votre-club) and [Architecture diagram](#architecture) for details.
