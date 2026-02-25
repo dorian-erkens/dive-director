@@ -17,13 +17,15 @@ Le DP doit fournir (demande ce qui manque avant de commencer) :
 
 ## Les 3 types d'exploration
 
-| Type | Profondeur max | Sites typiques | Plongeurs |
+| Type | Profondeur | Ce que ça veut dire | Plongeurs |
 |---|---|---|---|
-| **Explo 1** | 20 m | Courbet, LST 188, Durban, Furet, Cato | N1 (PE20), N2, N3, GP |
-| **Explo 2** | 40 m | Svenner, M39, HMS Magic, Gersay, Lawford, Northgate | N2 (PE40/PA20), N3, GP |
-| **Explo 3** | 60 m | Technique — rare | N3 (PA40+), GP E3 requis |
+| **Explo 1** | **0 à 20 m** | On ne peut PAS dépasser 20m | N1 (PE20), N2, N3, GP |
+| **Explo 2** | **0 à 40 m** | On PEUT aller jusqu'à 40m, mais 12m c'est OK aussi | N2 (PE40/PA20), N3, GP |
+| **Explo 3** | **0 à 60 m** | Plongée technique — rare | N3 (PA40+), GP E3 requis |
 
-**Règle importante** : une Explo 2 peut très bien aller sur un site à 15m — "qui peut le plus peut le moins". Le type d'Explo définit le plafond, pas le plancher. La météo et les conditions peuvent amener à choisir un site moins profond que le max autorisé.
+**Règle fondamentale** : le type d'Explo définit le **plafond de profondeur**, pas le plancher. Une Explo 2 à 12m sur le Courbet, c'est parfaitement valide. Le DP choisit le site en fonction de la marée, la météo, les plongeurs et la distance — pas en fonction du minimum de profondeur.
+
+Conséquence pour la proposition de sites : **ne jamais exclure un site parce qu'il est "trop peu profond" pour le type d'Explo**. Présenter tous les sites compatibles (profondeur réelle ≤ plafond Explo), triés par distance/intérêt, et laisser le DP choisir.
 
 ---
 

@@ -54,9 +54,11 @@ Quand le DP demande de **planifier une plongée complète** (ou utilise `/plan-d
 Le cursus DPE-PN5 (FFESSM) structure le travail du DP en 4 phases. Le type d'Explo est décidé **3 mois à l'avance** par le club (on alterne Explo 1 et Explo 2, rarement Explo 3). Les plongeurs s'inscrivent **15 jours avant**.
 
 **Les 3 types d'exploration :**
-- **Explo 1** : profondeur max 20 m (sites N1)
-- **Explo 2** : profondeur max 40 m (sites N2 — mais peut aller sur un site à 15m, "qui peut le plus peut le moins")
-- **Explo 3** : profondeur max 60 m (sites N3/technique — rare)
+- **Explo 1** : profondeur de **0 à 20 m** max
+- **Explo 2** : profondeur de **0 à 40 m** max — on peut plonger à 12m comme à 38m
+- **Explo 3** : profondeur de **0 à 60 m** max (technique — rare)
+
+Le type d'Explo définit le **plafond**, pas le plancher. Ne jamais exclure un site parce qu'il serait "trop peu profond" pour le type d'Explo. Le choix du site dépend de la marée, la météo, les plongeurs et la distance.
 
 **Phase 1 — CADRAGE** (données connues à l'avance)
 1. **Type d'Explo** (input du DP) : Explo 1, 2 ou 3 → plafond de profondeur
