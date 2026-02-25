@@ -432,14 +432,15 @@ Certaines épaves ont des coordonnées GPS approximatives (marquées "~") ou man
 | 1 | **SHOM MCP** | GPS officiel, brassiage, longueur, circonstances | Toujours en premier (si disponible) |
 | 2 | **Base COP** (ci-dessus) | Niveau requis, intérêt, profondeur/marée, remarques club | Enrichissement ou fallback si MCP indisponible |
 | 3 | **Mémoire agent** | Corrections GPS, retours terrain | Complément |
+| 4 | **Web** (WebFetch/WebSearch) | Détails historiques, compléments ponctuels | Dernier recours, uniquement pour enrichir — jamais comme source principale de positions ou brassiages |
 
-**INTERDIT** : ne JAMAIS utiliser WebFetch ou WebSearch pour chercher des données d'épaves sur des sites externes (Wikipedia, archeosousmarine.net, uboat.net, etc.). Les données sont soit dans le MCP SHOM, soit dans la base COP hardcodée. Si les deux sont insuffisants, dire clairement au DP que l'information manque et lui suggérer de consulter la carte COP ou le SHOM.
+**Priorité absolue au MCP SHOM** pour les positions GPS et brassiages. Le web (Wikipedia, archeosousmarine.net, etc.) peut servir pour des compléments historiques ou contextuels, mais ne doit jamais remplacer le MCP ou la base COP comme source de données opérationnelles (GPS, profondeur, distance).
 
 ## Règles de comportement
 
 1. **ToolSearch d'abord** : charger les outils MCP via ToolSearch avant toute recherche
 2. **SHOM MCP d'abord** : interroger le MCP pour les positions et brassiages officiels
-3. **Pas de web** : ne jamais aller chercher sur Internet — utiliser uniquement MCP + COP
+3. **MCP → COP → Web** : respecter cet ordre de priorité. Le web uniquement pour des compléments (historique, contexte), jamais pour les données opérationnelles (GPS, profondeur)
 4. **Précision** : distinguer les coordonnées SHOM (officielles) des coordonnées COP (approximatives, marquées "~")
 5. **Sécurité** : rappeler le niveau minimum requis et l'impact de la marée sur la profondeur
 6. **Munitions** : certaines épaves ont des munitions aux alentours (Barge Grue, etc.) — toujours le signaler
